@@ -1,25 +1,25 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import { cloudinaryConnect } from "./backend/config/cloudinary.js";
+import { cloudinaryConnect } from "./config/cloudinary.js";
 import path from "path";
 import multer from "multer";
-import { addPost, editPost } from "./backend/controllers/post.controller.js";
+import { addPost, editPost } from "./controllers/post.controller.js";
 import { fileURLToPath } from "url";
 
 
 
 const __filName = fileURLToPath(import.meta.url)
-const __dirname = path.dirname( __filName);
+const __dirname = path.resolve();
 
 //resolving cors issue
 
-import authRoutes from "./backend/routes/auth.routes.js";
-import postRoutes from "./backend/routes/post.routes.js";
-import userRoutes from "./backend/routes/user.routes.js";
-import questionRoutes from "./backend/routes/question.routes.js";
-import connectToMongoDB from "./backend/db/connectToMongoDB.js";
-import protectRoute from "./backend/middleware/protectRoute.js";
+import authRoutes from "./routes/auth.routes.js";
+import postRoutes from "./routes/post.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import questionRoutes from "./routes/question.routes.js";
+import connectToMongoDB from "./db/connectToMongoDB.js";
+import protectRoute from "./middleware/protectRoute.js";
 
 dotenv.config();
 // import messageRoutes from "./routes/message.routes.js";
@@ -60,9 +60,9 @@ app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/question", questionRoutes);
 
-app.use(express.static(path.join(__dirname, './frontend/dist')))
+app.use(express.static(path.join(__dirname, '/frontend/dist')))
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, "./frontend/dist", "index.html"))
+  res.sendFile(path.join(__dirname, "frontend", "dist" , "index.html"))
 })
 
 app.listen(PORT, () => {
