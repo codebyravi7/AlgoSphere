@@ -5,7 +5,12 @@ import { cloudinaryConnect } from "./backend/config/cloudinary.js";
 import path from "path";
 import multer from "multer";
 import { addPost, editPost } from "./backend/controllers/post.controller.js";
+import { fileURLToPath } from "url";
 
+
+
+const __filName = fileURLToPath(import.meta.url)
+const __dirname = path.dirname( __filName);
 
 //resolving cors issue
 
@@ -24,7 +29,6 @@ const app = express();
 app.use(cookieParser());
 cloudinaryConnect();
 
-// const __dirname = path.resolve();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
@@ -58,6 +62,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/question", questionRoutes);
+
+app.use(express.static(path.join(__dirname, './frontend/dist')))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, "./frontend/dist/index.html"))
 
 app.listen(PORT, () => {
   connectToMongoDB();
